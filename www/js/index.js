@@ -1,37 +1,34 @@
-document.addEventListener('deviceready', rechercherContacts);
-
-function rechercherContacts(){
-    const options = new ContactFindOptions();
-    options.filter  =  'resp'; // a enlever du code
-    options.multiple = true;
-    options.hasPhoneNumber = true; // enlever contact sans numner
-
-    let fields = ['name'];
-
-    navigator.contacts.find(fields, afficherContacts, gererErreur, options);
-
-}
-
-function afficherContacts(contacts){
-    //console.log('Nombre de contacts trouvés : ${contacts.length}');
-    //console.log('contacts');
-
-    let code = '';
-    for (Let i = 0; i < contacts.length; i++){
-        code +=
-        <li>
-            <a href="#">
-                <img src =" ${contacts[i].photos ? contacts[i].photos[0].value : 'img/'}"></img>
-                <h1> ${contacts[i].displayName}</h1>
-                <p> ${contacts[i].phoneNumbers[0]}</p>
-            </a>
-        </li>
+function calculerIMC() {
+    let imc = poids.value / Math.pow(taille.value, 2);
+ 
+    let message = "Vous êtes en état ";
+    
+    if (imc < 16.5) {
+        message += "de dénutrition";
     }
-    const contactList = document.getElementById('contactList');
-    contactList.innerHTML = code;
-    $(contactList).listview('refresh');
-}
-function gererErreur(error){
-    console.log(" Erreur : ");
-    console.log(error);
+    else if (imc >= 16.5 && imc < 18.5) {
+        message += "de maigreur";
+    }
+    else if (imc >= 18.5 && imc < 25) {
+        message = "Vous avez un poids normal";
+    }
+    else if (imc >= 25 && imc < 30) {
+        message += "de surpoids";
+    }
+    else if (imc >= 30 && imc < 35) {
+        message += "d'obésité modérée";
+    }
+    else if (imc >= 35 && imc < 40) {
+        message += "d'obésité sévère";
+    }
+    else {
+        message += "d'obésité morbide ou massive";
+    }
+ 
+    let interpretation = "Votre IMC est de " + imc.toFixed(2);
+    interpretation += '<hr>' + message;
+ 
+    let resultArea = document.querySelector('#resultat label');
+    resultArea.innerHTML = interpretation;
+    resultat.hidden = false;
 }
