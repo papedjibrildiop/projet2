@@ -1,0 +1,8 @@
+.termine {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.tache-en-cours {
+  font-weight: bold;
+}

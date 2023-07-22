@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList App</title>
+    <link rel="stylesheet" href="lib/jquery.mobile.structure-1.4.5.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/index.js"></script>
+</head>
+
+<body>
+<div data-role="page">
+    <div data-role="header">
+        <h1>ToDoList App</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <form>
+            <label for="tache">Ajouter une tâche</label>
+            <input type="text" id="tache">
+            <input type="button" value="Ajouter" onclick="ajouterTache()">
+            <input type="button" value="Réinitialiser" onclick="effacerliste()">
+        </form>
+        <div>
+            <h2>Tâches en cours</h2>
+            <ul id="taskListEnCours" data-role="listview" data-inset="true"></ul>
+        </div>
+        <div>
+            <h2>Tâches terminées</h2>
+            <ul id="taskListTermine" data-role="listview" data-inset="true"></ul>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h1>M1IA &copy; 2023</h1>
+    </div>
+</div>
+<script>
+        // Code JavaScript pour ajouter les classes "termine" et "tache-en-cours" aux éléments de la liste
+        const taskListEnCours = document.getElementById('taskListEnCours');
+        const taskListTermine = document.getElementById('taskListTermine');
+
+        function ajouterTache() {
+            const tache = document.getElementById('tache');
+            const newTask = document.createElement('li');
+            newTask.innerText = tache.value;
+
+            $(newTask).on('swiperight', function() {
+                if (this.classList.contains('termine')) {
+                    this.classList.remove('termine');
+                    this.classList.add('tache-en-cours');
+                    taskListEnCours.appendChild(this);
+                } else {
+                    this.classList.add('termine');
+                    this.classList.remove('tache-en-cours');
+                    taskListTermine.appendChild(this);
+                }
+            });
+
+            $(newTask).on('swipeleft', function() {
+                if (this.classList.contains('termine')) {
+                    taskListTermine.appendChild(this);
+                } else {
+                    this.classList.add('termine');
+                    this.classList.remove('tache-en-cours');
+                    taskListEnCours.appendChild(this);
+                }
+            });
+
+            taskListEnCours.appendChild(newTask);
+
+            tache.value = '';
+            tache.focus();
+        }
+
+        function effacerliste() {
+            taskListEnCours.innerHTML = '';
+            taskListTermine.innerHTML = '';
+        }
+    </script>
+</body>
+
+</html>
